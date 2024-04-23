@@ -85,9 +85,17 @@ const Test = () => {
     const [total, setTotal] = useState(0)
     const [openSec, setOpenSec] = useState(false)
 
-    const handleChange = (event) => {
-        setTotal(event + total)
+   
+    const handleSubmit = () => {
+        setOpenSec(true);
+        // Calculate the total score from selected options
+        const score = data.questions.reduce((acc, question) => {
+            const selectedOption = question.options.find(option => option.value === parseInt(document.querySelector(`input[name="${question.text}"]:checked`)?.value));
+            return acc + (selectedOption ? selectedOption.value : 0);
+        }, 0);
+        setTotal(score);
     };
+
 
     return (
         <div className={classes.root}>
@@ -121,7 +129,7 @@ const Test = () => {
                     <div className="test-submit__btn">
                         <Button
                             variant="contained" color="primary"
-                            onClick={() => setOpenSec(!openSec)}
+                            onClick={handleSubmit}
                         >Submit</Button>
                     </div>
 
